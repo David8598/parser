@@ -4,9 +4,8 @@ import requests
 
 def get_SHOTS_TARGET(game_result):
     for game in game_result['Value']:
-        country = game['CN']
-        comand1 = ['O1R']
-        comand2 = ['O2R']
+        country = game["CN"]
+        league = game["L"]
         try:
             bets = game["SC"]["ST"]
             for item in bets:
@@ -17,11 +16,18 @@ def get_SHOTS_TARGET(game_result):
                         SHOTS_on_TARGET_S2 = SHOTS_TARGET["S2"] 
                     if SHOTS_TARGET["ID"] == 60:
                         SHOTS_off_TARGET_S1 = SHOTS_TARGET["S1"]
-                        SHOTS_off_TARGET_S2 = SHOTS_TARGET["S2"]                      
+                        SHOTS_off_TARGET_S2 = SHOTS_TARGET["S2"] 
+     
+
         except:
+            
             print('nothing')
-            # break
-    print( f"SHOTS_on_TARGET_S1:" + SHOTS_on_TARGET_S1 " SHOTS_on_TARGET_S2:"  + SHOTS_on_TARGET_S2 + " SHOTS_off_TARGET_S1:" + SHOTS_off_TARGET_S1 + " SHOTS_off_TARGET_S2:" + SHOTS_off_TARGET_S2 + country)        
+            break
+        try:
+            print( f"{country}\n{league}\nSHOTS_on_TARGET_S1: {SHOTS_on_TARGET_S1} SHOTS_on_TARGET_S2: {SHOTS_on_TARGET_S2} \n SHOTS_off_TARGET_S1: {SHOTS_off_TARGET_S1}  SHOTS_off_TARGET_S2: {SHOTS_off_TARGET_S2}" )             
+        except:  print('nothing') 
+        
+    
 
 
 
@@ -46,7 +52,7 @@ def get_game(result):
         get_SHOTS_TARGET(game_result)
 
         
-        # break
+        break
 
         
         
