@@ -4,15 +4,17 @@ import requests
 
 def get_SHOTS_TARGET(game_result):
     for game in game_result['Value']:
+        try:
             bets = game["SC"]["ST"]
             for item in bets:
                 match_info = item["Value"]
-                # for SHOTS_TARGET in match_info:
-                #     # if SHOTS_TARGET["ID"] == 59:
-                #     #     print( ' SHOTS off TARGET ' + SHOTS_TARGET["S1"] + " SHOTS on TARGET " + SHOTS_TARGET["S2"] )
-                #     # if SHOTS_TARGET["ID"] == 60:
-                #     #     print( ' SHOTS off TARGET ' + SHOTS_TARGET["S1"] + " SHOTS on TARGET " + SHOTS_TARGET["S2"] )
-                # break       
+                for SHOTS_TARGET in match_info:
+                    if SHOTS_TARGET["ID"] == 59:
+                        print( ' SHOTS off TARGET ' + SHOTS_TARGET["S1"] + " SHOTS on TARGET " + SHOTS_TARGET["S2"] )
+                    if SHOTS_TARGET["ID"] == 60:
+                        print( ' SHOTS off TARGET ' + SHOTS_TARGET["S1"] + " SHOTS on TARGET " + SHOTS_TARGET["S2"] )                     
+        except:
+            print('nothing')
 
 
 
@@ -37,7 +39,7 @@ def get_game(result):
         get_SHOTS_TARGET(game_result)
 
         
-        break
+        # break
 
         
         
@@ -50,8 +52,7 @@ def main():
     # # print(champs)
 
     params = (
-    ('sports', '1'),
-    
+    ('sports', '1'),  
     ('count', '50'),
     ('gr', '29'),
     ('mode', '4'),
