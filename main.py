@@ -1,11 +1,12 @@
 import json
 import requests
 
-
 def get_SHOTS_TARGET(game_result):
     for game in game_result['Value']:
         country = game["CN"]
         league = game["L"]
+        comand1 = game["O1"]
+        comand2 = game["O2"]
         try:
             bets = game["SC"]["ST"]
             for item in bets:
@@ -17,24 +18,20 @@ def get_SHOTS_TARGET(game_result):
                     if SHOTS_TARGET["ID"] == 60:
                         SHOTS_off_TARGET_S1 = SHOTS_TARGET["S1"]
                         SHOTS_off_TARGET_S2 = SHOTS_TARGET["S2"] 
-     
-
         except:
-            
-            print('nothing')
             break
         try:
-            print( f"{country}\n{league}\nSHOTS_on_TARGET_S1: {SHOTS_on_TARGET_S1} SHOTS_on_TARGET_S2: {SHOTS_on_TARGET_S2} \n SHOTS_off_TARGET_S1: {SHOTS_off_TARGET_S1}  SHOTS_off_TARGET_S2: {SHOTS_off_TARGET_S2}" )             
-        except:  print('nothing') 
+            shots_On_num1 = int(SHOTS_on_TARGET_S1)
+            shots_On_num2 = int(SHOTS_on_TARGET_S2)
+            print(abs(shots_On_num1 - shots_On_num2))
+            # print( f"============\n{country}\n============\n{league}\n=============\n{comand1} vs {comand2}\n=============\nSHOTS_on_TARGET:\n{SHOTS_on_TARGET_S1} ======== {SHOTS_on_TARGET_S2} \n SHOTS_off_TARGET_:\n{SHOTS_off_TARGET_S1}  ======== {SHOTS_off_TARGET_S2}" )             
+        except:  break 
         
-    
-
-
 
 def get_game(result):
     for game in result['Value']:
         champs = game['LI']
-        print(champs)
+        # print(champs)
 
         params = (
             ('sports', '1'),
@@ -50,20 +47,9 @@ def get_game(result):
         response = requests.get('https://1xbit6.com/LiveFeed/Get1x2_VZip', params=params)
         game_result = response.json()
         get_SHOTS_TARGET(game_result)
-
         
-        break
-
-        
-        
-        
-
 
 def main():
-    url = 'https://1xbit6.com/live/football/'
-    # champs = url.split('/')[5].split('-')[0]
-    # # print(champs)
-
     params = (
     ('sports', '1'),  
     ('count', '50'),
@@ -76,10 +62,7 @@ def main():
 
     response = requests.get('https://1xbit6.com/LiveFeed/Get1x2_VZip', params=params)
     result = response.json()
-    get_game(result)
-    # get_SHOTS_TARGET(game_result)
-
-
+    get_game(result)  
 
 if __name__ == '__main__':
     main()
