@@ -13,6 +13,7 @@ def get_SHOTS_TARGET(game_result):
                 match_info = item["Value"]
                 for SHOTS_TARGET in match_info:
                     if SHOTS_TARGET["ID"] == 59:
+<<<<<<< HEAD
                         SHOTS_on_TARGET_S1 = SHOTS_TARGET["S1"]
                         SHOTS_on_TARGET_S2 = SHOTS_TARGET["S2"] 
                     if SHOTS_TARGET["ID"] == 60:
@@ -22,6 +23,18 @@ def get_SHOTS_TARGET(game_result):
             print('nothing')
             # break
     print( "SHOTS_on_TARGET_S1:" + SHOTS_on_TARGET_S1 " SHOTS_on_TARGET_S2:"  + SHOTS_on_TARGET_S2 + " SHOTS_off_TARGET_S1:" + SHOTS_off_TARGET_S1 + " SHOTS_off_TARGET_S2:" + SHOTS_off_TARGET_S2 + country)        
+=======
+                       print(f"SHOTS on TARGET left {SHOTS_TARGET['S1']} \n SHOTS on TARGET right {SHOTS_TARGET['S2']}")
+
+                    if SHOTS_TARGET["ID"] == 60:
+                        print( f" SHOTS off TARGET left {SHOTS_TARGET['S1']} \n SHOTS off TARGET right {SHOTS_TARGET['S2']}" )                     
+        except:
+            print('nothing')
+        # получаем страну
+        country = game["CN"]
+        print(country)  
+        break
+>>>>>>> 7bbc241041c05549f07372323cffc8b5510b61b3
 
 
 
