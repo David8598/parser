@@ -21,6 +21,6 @@ params = {
 
 req = requests.get(url, headers=params)
 result = req.json()
-# print(result)
-# print(src)
+print(result)
+print(src)
     
