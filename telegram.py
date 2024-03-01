@@ -16,7 +16,7 @@ def check_id():
 def send_telegram(text: str):
     token = '6876459293:AAHRQx6fxcA-yqyZeLaavb4zqOgrOsIeu1g'
     url = "https://api.telegram.org/bot"
-    channel_id = '1015804637'
+    channel_id = '651653922'
     url += token
     method = url + "/sendMessage"
 

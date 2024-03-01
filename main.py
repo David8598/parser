@@ -7,13 +7,14 @@ from telegram import send_telegram
 def get_message(shots_target):             #создаем ответ в тг 
     timestemp = shots_target['S']
     game_date = datetime.fromtimestamp(timestemp).strftime('%d.%m %H:%M')
-    country, league, team_1, team_2, time_S, shots_on_T1, shots_on_T2, shots_off_T1, shots_off_T2, dif = shots_target.values()
+    country, league, team_1, team_2, time_S, id, shots_on_T1, shots_on_T2, shots_off_T1, shots_off_T2, dif = shots_target.values()
     # формируем сообщение для тг 
     massege = f'{league}({game_date})\n' \
                 f'{team_1} - {team_2}\n' \
                 f'\n' \
                 f'on {shots_on_T1} - {shots_on_T2}\n' \
                 f'off {shots_off_T1} - {shots_off_T2}'        
+    print(massege)
     send_telegram(massege)            
     
                 
@@ -32,10 +33,22 @@ def get_message(shots_target):             #создаем ответ в тг
 
 def sort_data(shots_target):
     try:
-        if abs(int(shots_target['ONS1']) - int(shots_target['ONS2'])) and abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2'])) >= 4: 
-            print(abs(int(shots_target['ONS1']) - int(shots_target['ONS2'])))
+        if abs(int(shots_target['ONS1']) - int(shots_target['ONS2']))  > 4: 
+            # print(abs(int(shots_target['ONS1']) - int(shots_target['ONS2'])))
+            # print(abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2'])))
+            get_message(shots_target)
+        elif abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2'])) > 4:
+            #  print(abs(int(shots_target['ONS1']) - int(shots_target['ONS2'])))
+            #  print(abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2'])))
+             get_message(shots_target)
+        else:
+            # print(shots_target['I'])
+            pass
     except:
-        print(shots_target['I'])
+        # print(shots_target['I'])
+         pass
+    
+
             # abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2']))
         # diference_on_target = abs(int(shots_target['ONS1']) - int(shots_target['ONS2']))
         # diference_off_target = abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2']))
@@ -43,8 +56,11 @@ def sort_data(shots_target):
 
 def get_SHOTS_TARGET(game_result):
         game = game_result['Value']
-        shots_target = {}                  #здесь храняться все файлы которые получили из json игры 
-        shots_target['CN'] = game["CN"]
+        shots_target = {}  
+        try:                #здесь храняться все файлы которые получили из json игры 
+            shots_target['CN'] = game["CN"]
+        except:
+            shots_target['CN'] = '-'
         shots_target['L']= game["L"]
         shots_target['COM1'] = game["O1"]
         shots_target['COM2'] = game["O2"]
@@ -55,17 +71,21 @@ def get_SHOTS_TARGET(game_result):
             for item in bets:
                 match_info = item["Value"]
                 for SHOTS_TARGET in match_info:
-                    try:
                         if SHOTS_TARGET["ID"] == 59:
-                            shots_target['ONS1'] = SHOTS_TARGET["S1"]
-                            shots_target['ONS2'] = SHOTS_TARGET["S2"] 
+                            try:
+                                shots_target['ONS1'] = SHOTS_TARGET["S1"]
+                                shots_target['ONS2'] = SHOTS_TARGET["S2"] 
+                            except:
+                                 shots_target['ONS1'] = "0"
+                                 shots_target['ONS2'] = "0"
                         if SHOTS_TARGET["ID"] == 60:
-                            shots_target['OFFS1'] = SHOTS_TARGET["S1"]
-                            shots_target['OFFS2'] = SHOTS_TARGET["S2"]
-                    except:
-                        if SHOTS_TARGET["ID"] == 59:
-                            shots_target['ONS1'] = SHOTS_TARGET["S1"]
-                            shots_target['ONS2'] = SHOTS_TARGET["S2"]
+                            try:
+                                shots_target['OFFS1'] = SHOTS_TARGET["S1"]
+                                shots_target['OFFS2'] = SHOTS_TARGET["S2"]
+                            except:
+                                 shots_target['OFFS1'] = "0"
+                                 shots_target['OFFS2'] = "0"
+
         except: 
             pass
         sort_data(shots_target)
