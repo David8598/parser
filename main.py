@@ -7,16 +7,18 @@ def get_message(shots_target):             #создаем ответ в тг
     timestemp = shots_target['S']
     game_date = datetime.fromtimestamp(timestemp).strftime('%d.%m %H:%M')
     country, league, team_1, team_2, time_S, shots_on_T1, shots_on_T2, shots_off_T1, shots_off_T2, dif = shots_target.values()
-    #формируем сообщение
-    massege =   f'{league}({game_date})\n' \              
+    # формируем сообщение для тг 
+    massege = f'{league}({game_date})\n' \
                 f'{team_1} - {team_2}\n' \
                 f'\n' \
                 f'on {shots_on_T1} - {shots_on_T2}\n' \
-                f'off {shots_off_T1} - {shots_off_T2}'       
-    print(massege)            
+                f'off {shots_off_T1} - {shots_off_T2}'
+    # print(massege)            
     
                 
-
+def search_db(game_id, shots_target):
+    with open 
+    get_message(shots_target)
     
 
 def get_SHOTS_TARGET(game_result):
@@ -52,7 +54,8 @@ def get_SHOTS_TARGET(game_result):
             shots_target['DIFf'] = difference
         except:  
             break
-    get_message(shots_target)
+    game_id = game['I']    
+    search_db(game_id)
 
         
 
