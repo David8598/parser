@@ -1,6 +1,7 @@
 import json
 import requests
 from datetime import datetime
+from telegram import send_telegram
 
 
 def get_message(shots_target):             #создаем ответ в тг 
@@ -12,8 +13,14 @@ def get_message(shots_target):             #создаем ответ в тг
                 f'{team_1} - {team_2}\n' \
                 f'\n' \
                 f'on {shots_on_T1} - {shots_on_T2}\n' \
+<<<<<<< Updated upstream
                 f'off {shots_off_T1} - {shots_off_T2}'
     # print(massege)            
+=======
+                f'off {shots_off_T1} - {shots_off_T2}'     
+   
+    send_telegram(massege)            
+>>>>>>> Stashed changes
     
                 
 def search_db(game_id, shots_target):
