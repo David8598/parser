@@ -13,19 +13,19 @@ def get_message(shots_target):             #создаем ответ в тг
                 f'{team_1} - {team_2}\n' \
                 f'\n' \
                 f'on {shots_on_T1} - {shots_on_T2}\n' \
-<<<<<<< Updated upstream
-                f'off {shots_off_T1} - {shots_off_T2}'
-    # print(massege)            
-=======
                 f'off {shots_off_T1} - {shots_off_T2}'     
    
     send_telegram(massege)            
->>>>>>> Stashed changes
     
                 
 def search_db(game_id, shots_target):
-    with open 
-    get_message(shots_target)
+    with open ('db.txt', 'r' ) as file:
+        for item in file.readlines():
+            line = item.strip()
+            if int(line) != game_id:
+                get_message(shots_target)
+    with open ('db.txt', 'a' ) as file:
+        file.write(f'\n{game_id}')     
     
 
 def get_SHOTS_TARGET(game_result):
@@ -61,8 +61,8 @@ def get_SHOTS_TARGET(game_result):
             shots_target['DIFf'] = difference
         except:  
             break
-    game_id = game['I']    
-    search_db(game_id)
+    game_id = game['LI']    
+    search_db(game_id, shots_target)
 
         
 
@@ -85,7 +85,7 @@ def get_game(result):                         # проходимся по все
         response = requests.get('https://1xbit6.com/LiveFeed/Get1x2_VZip', params=params)
         game_result = response.json()
         get_SHOTS_TARGET(game_result)
-        break
+        # break
         
 
 def main(): #достаем json с сайта 
