@@ -39,6 +39,7 @@ def get_SHOTS_TARGET(game_result):
         shots_target['COM2'] = game["O2"]
         shots_target['S'] = game['S']
         shots_target['I'] = game['I']
+        print(shots_target)
         try:
             bets = game["SC"]["ST"]         #парсим json который получили 
             for item in bets:
