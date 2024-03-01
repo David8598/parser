@@ -18,18 +18,26 @@ def get_message(shots_target):             #создаем ответ в тг
     send_telegram(massege)            
     
                 
+# def search_db(game_id, shots_target):
+#     with open ('db.txt', 'r' ) as file:
+#         for item in file.readlines():
+#             line = item.strip()
+#             if int(float(line)) != game_id:
+#                 print("id со списка" + int(float(line)))
+#                 print("id с запроса" + game_id)
+#                 get_message(shots_target)
+#     with open ('db.txt', 'a' ) as file:
+#         file.write(f'\n{game_id}')     
 def search_db(game_id, shots_target):
     with open ('db.txt', 'r' ) as file:
-        for item in file.readlines():
-            line = item.strip()
-            if int(line) != game_id:
-                get_message(shots_target)
-    with open ('db.txt', 'a' ) as file:
-        file.write(f'\n{game_id}')     
-    
+        if file.read() != game_id:
+            get_message(shots_target)
+            with open ('db.txt', 'a' ) as f:
+                f.write(f'\n{game_id}')
+
 
 def get_SHOTS_TARGET(game_result):
-    for game in game_result['Value']:  
+        game = game_result['Value']
         shots_target = {}                  #здесь храняться все файлы которые получили из json игры 
         shots_target['CN'] = game["CN"]
         shots_target['L']= game["L"]
@@ -52,37 +60,41 @@ def get_SHOTS_TARGET(game_result):
                 shots_target['ONS2'] = SHOTS_on_TARGET_S2
                 shots_target['OFFS1'] = SHOTS_off_TARGET_S1
                 shots_target['OFFS2'] = SHOTS_off_TARGET_S2         
-        except:
-            break 
+        except: 
+            print()
         try:
             shots_On_numS1 = int(SHOTS_on_TARGET_S1)
             shots_On_numS2 = int(SHOTS_on_TARGET_S2)
             difference = abs(shots_On_numS1 - shots_On_numS2)  
             shots_target['DIFf'] = difference
         except:  
-            break
-    game_id = game['LI']    
-    search_db(game_id, shots_target)
+            print()
+        game_id = game['I']    
+        search_db(game_id, shots_target)
 
         
 
 def get_game(result):                         # проходимся по всем матчам 
     for game in result['Value']:
-        champs = game['LI']
+        champs = game['I']
         # print(champs)
 
         params = (
-            ('sports', '1'),
-            ('champs', champs),
-            ('count', '50'),
-            ('gr', '29'),
-            ('mode', '4'),
+            ('id', champs),
+            ('lng', 'ru'),
+            ('isSubGames', 'true'),
+            ('GroupEvents', 'true'),
+            ('allEventsGroupSubGames', 'true'),
+           ('countevents', '250'),
+            ('partner', '65'),
             ('country', '2'),
-            ('partner', '65'),      
-            ('getEmpty', 'true'),
+            ('fcountry', '2'),
+            ('marketType', '1'),
+            ('gr', '29'),
+            ('isNewBuilder', 'true'),
             )
 
-        response = requests.get('https://1xbit6.com/LiveFeed/Get1x2_VZip', params=params)
+        response = requests.get('https://1xbit-ua.com/LiveFeed/GetGameZip?', params=params)
         game_result = response.json()
         get_SHOTS_TARGET(game_result)
         # break
