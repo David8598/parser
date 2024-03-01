@@ -2,7 +2,7 @@ import json
 import requests
 from datetime import datetime
 from telegram import send_telegram
-
+from timeout import random_timeout
 def get_message(shots_target):             #создаем ответ в тг 
     timestemp = shots_target['S']
     game_date = datetime.fromtimestamp(timestemp).strftime('%d.%m %H:%M')
@@ -105,5 +105,8 @@ def main(): #достаем json с сайта
     get_game(result)  
 
 if __name__ == '__main__':
-    main()
+    while True:
+        random_timeout(300, 360)
+        print("новое выполнение")
+        main()
     
