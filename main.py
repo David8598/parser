@@ -17,14 +17,19 @@ def get_message(shots_target):             #создаем ответ в тг
     send_telegram(massege)            
 
 def sort_data(shots_target):
-    try:
-        if abs(int(shots_target['ONS1']) - int(shots_target['ONS2']))  >= 4: 
-            get_message(shots_target)
-        elif abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2'])) >= 4:
-             get_message(shots_target)
-        else:
+    if int(datetime.fromtimestamp(shots_target['S']).strftime('%M')) < 30:
+        try:
+            if abs(int(shots_target['ONS1']) - int(shots_target['ONS2']))  >= 4: 
+                get_message(shots_target)
+                print( )
+            elif abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2'])) >= 4:
+                get_message(shots_target)
+                print( datetime.fromtimestamp(shots_target['S']).strftime('%M') )
+            else:
+                pass
+        except:
             pass
-    except:
+    else:
          pass
     
 def get_SHOTS_TARGET(game_result):
@@ -106,8 +111,8 @@ def main(): #достаем json с сайта
     get_game(result)  
 
 if __name__ == '__main__':
-    while True:
-        random_timeout(300, 360)
+    # while True:
+        # random_timeout(300, 360)
         print("новое выполнение")
         main()
     
