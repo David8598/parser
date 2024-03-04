@@ -2,7 +2,7 @@
 import requests
 from datetime import datetime
 from telegram import send_telegram
-# from timeout import random_timeout
+from timeout import random_timeout
 import time
 def get_message(shots_target):             #создаем ответ в тг 
     timestemp = shots_target['S']
@@ -18,7 +18,7 @@ def get_message(shots_target):             #создаем ответ в тг
     send_telegram(massege)            
 
 def sort_data(shots_target):
-    if int(shots_target['S'])+30*60 < int(float(time.time())):
+    if int(shots_target['S']) > int(float(time.time()))-30*60:
         try:
             if abs(int(shots_target['ONS1']) - int(shots_target['ONS2']))  >= 4: 
                 get_message(shots_target)
@@ -45,7 +45,6 @@ def get_SHOTS_TARGET(game_result):
         shots_target['COM2'] = game["O2"]
         shots_target['S'] = game['S']
         shots_target['I'] = game['I']
-        print(shots_target)
         try:
             bets = game["SC"]["ST"]         #парсим json который получили 
             for item in bets:
@@ -73,26 +72,30 @@ def get_SHOTS_TARGET(game_result):
 
 def get_game(result):                         # проходимся по всем матчам 
     for game in result['Value']:
-        champs = game['I']
+        try:
+            champs = game['I']
 
-        params = (
-            ('id', champs),
-            ('lng', 'ru'),
-            ('isSubGames', 'true'),
-            ('GroupEvents', 'true'),
-            ('allEventsGroupSubGames', 'true'),
-            ('countevents', '250'),
-            ('partner', '65'),
-            ('country', '2'),
-            ('fcountry', '2'),
-            ('marketType', '1'),
-            ('gr', '29'),
-            ('isNewBuilder', 'true'),
-            )
+            params = (
+                ('id', champs),
+                ('lng', 'en'),
+                ('isSubGames', 'true'),
+                ('GroupEvents', 'true'),
+                ('allEventsGroupSubGames', 'true'),
+                ('countevents', '250'),
+                ('partner', '65'),
+                ('country', '2'),
+                ('fcountry', '2'),
+                ('marketType', '1'),
+                ('gr', '29'),
+                ('isNewBuilder', 'true'),
+                )
 
-        response = requests.get('https://1xbit-ua.com/LiveFeed/GetGameZip?', params=params)
-        game_result = response.json()
-        get_SHOTS_TARGET(game_result)
+            response = requests.get('https://1xbit-ua.com/LiveFeed/GetGameZip?', params=params)
+            game_result = response.json()
+            get_SHOTS_TARGET(game_result)
+        except: 
+            random_timeout(120, 220)
+            main()
         # break
         
 
@@ -112,8 +115,8 @@ def main(): #достаем json с сайта
     get_game(result)  
 
 if __name__ == '__main__':
-    # while True:
-    #     random_timeout(300, 360)
+    while True:
+        random_timeout(300, 360)
         print("новое выполнение")
         main()
     
