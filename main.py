@@ -1,8 +1,9 @@
-import json
+
 import requests
 from datetime import datetime
 from telegram import send_telegram
-from timeout import random_timeout
+# from timeout import random_timeout
+import time
 def get_message(shots_target):             #создаем ответ в тг 
     timestemp = shots_target['S']
     game_date = datetime.fromtimestamp(timestemp).strftime('%d.%m %H:%M')
@@ -17,7 +18,7 @@ def get_message(shots_target):             #создаем ответ в тг
     send_telegram(massege)            
 
 def sort_data(shots_target):
-    if int(datetime.fromtimestamp(shots_target['S']).strftime('%M')) < 30:
+    if int(shots_target['S'])+30*60 < int(float(time.time())):
         try:
             if abs(int(shots_target['ONS1']) - int(shots_target['ONS2']))  >= 4: 
                 get_message(shots_target)
@@ -112,7 +113,7 @@ def main(): #достаем json с сайта
 
 if __name__ == '__main__':
     # while True:
-        # random_timeout(300, 360)
+    #     random_timeout(300, 360)
         print("новое выполнение")
         main()
     
