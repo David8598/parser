@@ -21,10 +21,10 @@ def sort_data(shots_target):
         try:
             if abs(int(shots_target['ONS1']) - int(shots_target['ONS2']))  >= 4: 
                 get_message(shots_target)
-                print( )
+
             elif abs(int(shots_target['OFFS1']) - int(shots_target['OFFS2'])) >= 4:
                 get_message(shots_target)
-                print( datetime.fromtimestamp(shots_target['S']).strftime('%M') )
+  
             else:
                 pass
         except:
@@ -115,7 +115,7 @@ def main(): #достаем json с сайта
 
 if __name__ == '__main__':
     while True:
-        # random_timeout(300, 360)
-        print("новое выполнение")
+        random_timeout(300, 360)
+        print("new task")
         main()
     
