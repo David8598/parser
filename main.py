@@ -1,4 +1,3 @@
-
 import requests
 from datetime import datetime
 from telegram import send_telegram
@@ -116,7 +115,7 @@ def main(): #достаем json с сайта
 
 if __name__ == '__main__':
     while True:
-        random_timeout(300, 360)
+        # random_timeout(300, 360)
         print("новое выполнение")
         main()
     
